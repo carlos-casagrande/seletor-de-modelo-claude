@@ -1,0 +1,40 @@
+{
+  "_versao": "Seletor de Modelo e Esforco 1.0.9 - 26/11/2026",
+  "_desinstalar": [
+    "Para remover: apague deste arquivo APENAS o objeto cujo command comeca com",
+    "echo '[TRIAGEM-MODELO]. Se ele era o unico item de UserPromptSubmit, a chave",
+    "UserPromptSubmit inteira pode sair. NAO apague a chave 'hooks' inteira e nao",
+    "substitua o settings.json por uma copia em branco: isso derruba os seus outros",
+    "hooks junto. Depois, apague a pasta ~/.claude/skills/seletor-de-modelo e",
+    "reinicie o Claude Code. Passo a passo no LEIA-ME.md, secao 'Desinstalação'."
+  ],
+  "_leia_antes": [
+    "Este arquivo é um EXEMPLO. Não o copie por cima do seu settings.json:",
+    "se você já tem hooks configurados, copiar por cima APAGA todos eles.",
+    "Abra o seu ~/.claude/settings.json e mescle apenas o bloco 'hooks' abaixo,",
+    "acrescentando o objeto de 'UserPromptSubmit' ao que já existir lá.",
+    "Remova estas chaves que começam com _ antes de usar: são comentários,",
+    "e o Claude Code não tem sintaxe de comentário em JSON.",
+    "",
+    "O que este hook faz: injeta um lembrete no início de cada mensagem sua,",
+    "mandando o modelo rodar a triagem antes da primeira tarefa substantiva.",
+    "Ele NÃO troca o modelo e NÃO bloqueia nada — só lembra.",
+    "",
+    "Ele dispara em TODA mensagem, inclusive nas triviais. Se isso incomodar,",
+    "a saída é um script que guarde estado por sessão e só emita o texto longo",
+    "na primeira vez; a versão simples abaixo dispensa qualquer dependência."
+  ],
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[TRIAGEM-MODELO] Antes da primeira tarefa substantiva desta sessao, ou quando a NATUREZA da tarefa mudar (mecanica <-> juridica, simples <-> complexa), PARE e rode a skill seletor-de-modelo. Emita o bloco Tarefa / Recomendo / Porque / Trocar / Economia em TEXTO PURO, sem cartao visual e sem widget, e pergunte ao usuario se ele quer trocar de modelo ou de esforco, apresentando a recomendacao como opcao principal. NUNCA afirme qual modelo esta ativo sem evidencia real na conversa. So prossiga apos resposta explicita. PULE em: continuacao do mesmo trabalho, confirmacoes (sim, pode seguir), perguntas curtas e conversa trivial.'",
+            "statusMessage": "Triagem de modelo e esforco"
+          }
+        ]
+      }
+    ]
+  }
+}
